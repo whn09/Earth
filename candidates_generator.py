@@ -4,15 +4,18 @@ import time
 import math
 import helper
 
-train_file = "data/dbpedia.train"
-test_file = "data/dbpedia.test"
+#train_file = "data/dbpedia.train"
+#test_file = "data/dbpedia.test"
+train_file = "../dataset/haha_new/haha_new.raw.20180712.train"
+test_file = "../dataset/haha_new/haha_new.raw.20180712.test"
 
 max_window_size = 1000
 batch_size = 500
 
 label_to_int,vocab_to_int = helper.build_vocab_dict(train_file)
-print (label_to_int)
-print (vocab_to_int)
+print ('label_to_int:', len(label_to_int))
+print ('label_to_int:', label_to_int)
+print ('vocab_to_int:', len(vocab_to_int))
 
 train_data = helper.read_data_into_cache(train_file)
 test_data = helper.read_data_into_cache(test_file)
@@ -25,14 +28,15 @@ def get_batches(start_pos, batch_size, train_data):
     word_num = np.zeros((batch_size))
     line_no = 0
     for line in batch:
-        line = line.strip().split(' ')
-        y.append(label_to_int[line[0]])
+        line = line.strip().lower().split(' ')
         col_no = 0
-        for i in line[1:]:
+        for i in line:
             if i in vocab_to_int:
                 x[line_no][col_no] = vocab_to_int[i]
                 mask[line_no][col_no] = 1
                 col_no += 1
+            elif i in label_to_int:
+                y.append(label_to_int[i])
             if col_no >= max_window_size:
                 break
         word_num[line_no] = col_no
@@ -95,7 +99,7 @@ with train_graph.as_default():
     out_layer = tf.matmul(pred, tf.transpose(nce_weights)) + nce_biases
 
 # Number of Epochs
-num_epochs = 2
+num_epochs = 100
 batch_size = 300
 learning_rate_value = 0.01
 show_every_n_batches = 10

@@ -5,6 +5,7 @@ def build_vocab_dict(path):
     """
     Load Dataset from File
     """
+    print('linecache.checkcache():', linecache.checkcache(path))
     label_to_int = {}
     vocab_to_int = {}
     count = 0
@@ -17,6 +18,7 @@ def build_vocab_dict(path):
         count += 1
         line = line.strip().split(' ')
         for i in line:
+            i = i.lower()
             if i.find('__label__') == 0:
                 if i not in label_to_int:
                     label_to_int[i] = label_cnt
