@@ -20,7 +20,6 @@ log_dir = 'logs/'
 
 label_to_int,vocab_to_int,int_to_label,int_to_vocab = helper.build_vocab_dict(train_file)
 print ('label_to_int:', len(label_to_int))
-print ('label_to_int:', label_to_int)
 print ('vocab_to_int:', len(vocab_to_int))
 
 train_data = helper.read_data_into_cache(train_file)
