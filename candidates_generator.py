@@ -67,7 +67,7 @@ def get_inputs():
     return inputs, targets, learning_rate, vocab_num
 
 vocab_size = len(vocab_to_int)+1
-embed_dim = 128
+embed_dim = 300  # default 128
 def get_embed(input_data, vocab_size, embed_dim):
     emb_mask = tf.placeholder(tf.float32, shape=[None, max_window_size, 1])
     embedding = tf.Variable(tf.random_uniform((vocab_size, embed_dim), -1, 1))
